@@ -1,0 +1,6 @@
+# Build backend image
+docker build . -t goals-backend
+# Run backend container
+docker run --network goals-app-network --name goals-backend-app -d goals-backend
+# Run mongo
+docker run --name mongo-db -d --network goals-app-network mongo:7.0.5   
