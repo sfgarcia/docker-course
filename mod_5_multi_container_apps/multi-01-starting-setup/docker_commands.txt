@@ -1,3 +1,5 @@
+# Run mongo
+docker run --name mongo-db -d --network goals-app-network -v mongo-data:/data/db --rm mongo:7.0.5
 # Build backend image
 docker build . -t goals-backend
 # Run backend container
@@ -6,5 +8,3 @@ docker run --network goals-app-network --name goals-backend-app -d -p 80:80 --rm
 docker build . -t goals-frontend
 # Run frontend container
 docker run --name goals-frontend-app -d -p 3000:3000 --rm -it goals-frontend
-# Run mongo
-docker run --name mongo-db -d --network goals-app-network --rm mongo:7.0.5   
