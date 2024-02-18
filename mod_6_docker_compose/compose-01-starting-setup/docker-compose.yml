@@ -20,12 +20,14 @@ services:
       MONGODB_PASSWORD: secret
     volumes:
       - ./logs:/app/logs
-      - ./$(pwd):/app
+      - ./$(pwd)/backend:/app
       - /app/node_modules
     ports:
       - "80:80"
     networks:
       - goals-net
+    depends_on:
+      - mongo-db
 
   goals-frontend-app:
     build: ./frontend
@@ -33,10 +35,12 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./$(pwd):/app
+      - ./$(pwd)/frontend/src:/app
       - /app/node_modules
     networks:
       - goals-net
+    depends_on:
+      - goals-backend-app
 
 networks:
   goals-net: {}
