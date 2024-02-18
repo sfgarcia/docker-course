@@ -1,4 +1,5 @@
 version: "3.8"
+name: goals-app
 services:
   mongo-db:
     image: mongo:7.0.5
@@ -12,7 +13,7 @@ services:
       - goals-net
 
   goals-backend-app:
-    image: goals-backend:latest
+    build: ./backend
     container_name: goals-backend-app
     environment:
       MONGODB_USERNAME: max
@@ -27,7 +28,8 @@ services:
       - goals-net
 
   goals-frontend-app:
-    image: goals-frontend:latest
+    build: ./frontend
+    container_name: goals-frontend-app
     ports:
       - "3000:3000"
     volumes:
