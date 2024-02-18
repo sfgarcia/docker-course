@@ -1,20 +1,18 @@
 version: "3.8"
 name: goals-app
 services:
-  mongo-db:
+  mongodb:
     image: mongo:7.0.5
-    container_name: mongo-db
-    env-file:
+    container_name: mongodb
+    env_file:
       - ./env/mongo.env
     volumes:
       - data:/data/db
-    networks:
-      - goals-net
 
   goals-backend-app:
     build: ./backend
     container_name: goals-backend-app
-    env-file:
+    env_file:
       - ./env/backend.env
     volumes:
       - logs:/app/logs
@@ -22,10 +20,8 @@ services:
       - /app/node_modules
     ports:
       - "80:80"
-    networks:
-      - goals-net
     depends_on:
-      - mongo-db
+      - mongodb
 
   goals-frontend-app:
     build: ./frontend
@@ -35,14 +31,9 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
-    networks:
-      - goals-net
     depends_on:
       - goals-backend-app
 
 volumes:
   data:
   logs:
-
-networks:
-  goals-net:
