@@ -4,23 +4,21 @@ services:
   mongo-db:
     image: mongo:7.0.5
     container_name: mongo-db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: max
-      MONGO_INITDB_ROOT_PASSWORD: secret
+    env-file:
+      - ./env/mongo.env
     volumes:
-      - ./data:/data/db
+      - data:/data/db
     networks:
       - goals-net
 
   goals-backend-app:
     build: ./backend
     container_name: goals-backend-app
-    environment:
-      MONGODB_USERNAME: max
-      MONGODB_PASSWORD: secret
+    env-file:
+      - ./env/backend.env
     volumes:
-      - ./logs:/app/logs
-      - ./$(pwd)/backend:/app
+      - logs:/app/logs
+      - ./backend:/app
       - /app/node_modules
     ports:
       - "80:80"
@@ -35,12 +33,16 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./$(pwd)/frontend/src:/app
+      - ./frontend:/app
       - /app/node_modules
     networks:
       - goals-net
     depends_on:
       - goals-backend-app
 
+volumes:
+  data:
+  logs:
+
 networks:
-  goals-net: {}
+  goals-net:
