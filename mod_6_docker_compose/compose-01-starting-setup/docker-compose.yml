@@ -7,7 +7,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: max
       MONGO_INITDB_ROOT_PASSWORD: secret
     volumes:
-      - data:/data/db
+      - ./data:/data/db
     networks:
       - goals-net
 
@@ -18,8 +18,8 @@ services:
       MONGODB_USERNAME: max
       MONGODB_PASSWORD: secret
     volumes:
-      - logs:/app/logs
-      - $(pwd):/app
+      - ./logs:/app/logs
+      - ./$(pwd):/app
       - /app/node_modules
     ports:
       - "80:80"
@@ -31,7 +31,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - $(pwd):/app
+      - ./$(pwd):/app
       - /app/node_modules
     networks:
       - goals-net
