@@ -1,0 +1,40 @@
+version: "3.8"
+services:
+  mongo-db:
+    image: mongo:7.0.5
+    container_name: mongo-db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: max
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    volumes:
+      - data:/data/db
+    networks:
+      - goals-net
+
+  goals-backend-app:
+    image: goals-backend:latest
+    container_name: goals-backend-app
+    environment:
+      MONGODB_USERNAME: max
+      MONGODB_PASSWORD: secret
+    volumes:
+      - logs:/app/logs
+      - $(pwd):/app
+      - /app/node_modules
+    ports:
+      - "80:80"
+    networks:
+      - goals-net
+
+  goals-frontend-app:
+    image: goals-frontend:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - $(pwd):/app
+      - /app/node_modules
+    networks:
+      - goals-net
+
+networks:
+  goals-net: {}
